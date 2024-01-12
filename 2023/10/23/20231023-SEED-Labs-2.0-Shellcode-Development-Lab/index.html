@@ -1,0 +1,575 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>SEED Labs 2.0: Shellcode Development Lab | Johnny</title><meta name="keywords" content="安全"><meta name="author" content="Johnny"><meta name="copyright" content="Johnny"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="SEED Labs 2.0: Shellcode Development Lab"><meta name="application-name" content="SEED Labs 2.0: Shellcode Development Lab"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="SEED Labs 2.0: Shellcode Development Lab"><meta property="og:url" content="https://jieyugit.github.io/2023/10/23/20231023-SEED-Labs-2.0-Shellcode-Development-Lab/index.html"><meta property="og:site_name" content="Johnny"><meta property="og:description" content="Shellcode Development LabTask 1.a: The Entire ProcessCompiling to object code.将汇编语言编译成为机器码：  Linking to generate final binary.将编译后的文件进行链接，就生成了可执行文件  运"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20240112232340.png"><meta property="article:author" content="Johnny"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20240112232340.png"><meta name="description" content="Shellcode Development LabTask 1.a: The Entire ProcessCompiling to object code.将汇编语言编译成为机器码：  Linking to generate final binary.将编译后的文件进行链接，就生成了可执行文件  运"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="https://jieyugit.github.io/2023/10/23/20231023-SEED-Labs-2.0-Shellcode-Development-Lab/"><link rel="preconnect" href="//cdn.cbd.int"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: undefined,
+  postHeadAiDescription: undefined,
+  diytitle: undefined,
+  LA51: undefined,
+  greetingBox: {"enable":true,"default":"晚上好👋","list":[{"greeting":"晚安😴","startTime":0,"endTime":5},{"greeting":"早上好鸭👋, 祝你一天好心情！","startTime":6,"endTime":9},{"greeting":"上午好👋, 状态很好，鼓励一下～","startTime":10,"endTime":10},{"greeting":"11点多啦, 在坚持一下就吃饭啦～","startTime":11,"endTime":11},{"greeting":"午安👋, 宝贝","startTime":12,"endTime":14},{"greeting":"🌈充实的一天辛苦啦！","startTime":14,"endTime":18},{"greeting":"19点喽, 奖励一顿丰盛的大餐吧🍔。","startTime":19,"endTime":19},{"greeting":"晚上好👋, 在属于自己的时间好好放松😌~","startTime":20,"endTime":24}]},
+  twikooEnvId: '',
+  commentBarrageConfig:undefined,
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: false,
+  mainTone: undefined,
+  authorStatus: {"skills":["🤖️ 数码科技爱好者","🔍 分享与热心帮助","🔨 累死累活造轮子","🏃 脚踏实地行动派","🧱 团队小组发动机"]},
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"作者: Johnny","link":"链接: ","source":"来源: Johnny","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。","copySuccess":"复制成功，复制和转载请标注本文地址"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'Johnny',
+  title: 'SEED Labs 2.0: Shellcode Development Lab',
+  postAI: '',
+  pageFillDescription: 'Shellcode Development Lab, Task 1.a The Entire Process, Compiling to object code., Linking to generate final binary., Getting the machine code, Using the shellcode in attacking code., Task 1.b. Eliminating Zeros from the Code, Task 1.c. Providing Arguments for System Calls, Task 1.d. Providing Environment Variables for execve(), Task 2 Using Code Segment, Task1, Task2, Task3, Environment Variable and Set-UID Program Lab, Task 1 Manipulating Environment Variables, Task 2 Passing Environment Variables from Parent Process to Child Process, Step1, Step2, Step3, Task 3 Environment Variables and execve(), Step1, Step2, Step3, Task 4 Environment Variables and system(), Task 5 Environment Variable and Set-UID Programs, Step1 编写程序, Step2, Step3, Task 6 The PATH Environment Variable and Set-UID Programs, 运行任意编写的代码, getshell, Task 7 The LD PRELOAD Environment Variable and Set-UID Programs, Step1, Step2, Step3, Task 8 Invoking External Programs Using system() versus execve(), Step 1, Step2, Task 9 Capability Leaking将汇编语言编译成为机器码将编译后的文件进行链接就生成了可执行文件运行之后可以看到是子进程运行的命令可以通过查看编译之后机器码也可以通过查看没有被高亮的机器码可以使用将机器码转换一个格式先看看的指令是然后当作结尾符由于不能使用就使用将填满到个字节因为是小端存储所以需要先左移再右移的方式将消除掉查看反汇编指令并没有成功运行我们一行一行进行解释这一行先使用异或将清零然后将压入栈用于字符串终止标志将两个字符串压入栈中因为寄存器是位所以都是正好可以压入的不用另外处理然后把这个字符串即的地址赋值给将空的压入栈中也是当作字符串的结尾使用接下来的两条指令都是为了将空格给创造出来然后将字符串压入栈中同时清空供之后直接使用同时将字符串的地址赋值给也是同样的将指令创造出来压入栈中同时把指令压入栈中这样的字符串就是然后将字符串地址赋值给这些寄存器都存储好了字符串的地址之后将这些寄存器按照参数先后顺序压入栈中就完成了对于每个字符串都像前一个实验那样将字符串压入栈中并且存储对应字符串的值按照文档顺序都压入栈中但是最后一个压入的一定是如果选用其他的寄存器会导致段错误编译执行定义一个标签弹出堆栈顶部的值将其存储到寄存器中这个值是标签后面的字符串的地址将寄存器的值清零通常用于清零寄存器中的临时数据将中的写入到加的地址处这是为了将字符串的结尾标志设置为终止符将的值写入到加的地址处实际上是将的地址存储在这个位置将写入到加的地址处用于表示命令参数列表的结束计算的地址将结果存储在中这将成为系统调用的第二个参数即参数数组的地址将寄存器的值清零通常用于清零寄存器中的临时数据将寄存器设置为这是系统调用的系统调用号触发中断从而调用系统调用以执行定义标签调用标签实际上执行了前面定义的子例程定义一个字符串其中包含要执行的命令以及一些填充字符这个字符串是命令后面的内容它将被用来设置寄存器以便执行命令通过修改内存中的字符串和寄存器来构造系统调用所需的参数然后触发系统调用来执行指定的命令从而成功执行程序他是将定义好的字符串即在中弹出并且存储到中同时将其之下的位置当作参数位置进行构造然后记录其起始位置通过中断并且调用函数进行的执行是我们构造的字符串通过指令可以获取该地址是占位符为了防止导致无法复制字符串这里使用作为占位符后面会用进行替换是我们要执行的命令一定要注意到字符串最后有个存储的地址因此指向存储的地址运行结果为注意到位和位的不同位系统调用系统调用是通过指令完成的系统调用的前三个参数分别存储在和寄存器中修改之后的文件为成功执行使用或者打印环境变量使用或者查看特定的环境变量使用命令添加环境变量使用删除环境变量比较简单编译文件并且将输出重定向到文件中将父进程的环境变量打印并输出到另一个文件中比较两个文件并没有输出说明两个文件没有差异即子进程完全继承了父进程的环境变量在文档的描述中说到并不会返回其运行的进程直接使用调用的进程的地址空间而且是覆盖了原来进程的地址空间提出一个问题新的进程是否自动继承了调用进程的环境变量编译文件运行它发现并没有输出更改第十二行代码编译运行发现打印出了环境变量发现在原来的程序中定义了一个外部变量并且在调用时传入了这个值他就是父进程中的环境变量在中也有说明不同于系统调用使用的其实是运行指定的命令编写代码并且运行发现它打印出了环境变量编写程序编译程序并且更改程序执行权限设置三个环境变量这些环境变量是设置在用户空间的从就可看出来之后运行上面写好的程序我们发现在父进程中设置的环境变量都已经进入了子进程的环境变量但是我们发现在子进程的环境变量中找不到环境变量用于指定查找共享库动态链接库时除了默认路径以外的其他路径可以被修改从而加载攻击者的恶意库为了使程序更加安全不受环境变量的影响运行时的链接器或加载器会忽略环境变量或许可以理解为链接器所拥有的一个保护机制当执行程序的进程与拥有者的进程不一致时链接器就会忽略掉环境变量所以在子进程的环境变量中找不到此环境变量先编写一个程序这个程序运行了指令并且使用的是相对路径我们编译运行结果如下发现他确实运行了指令更改为程序为了关闭保护程序我们将重链接到另外一个程序上运行任意编写的代码由于是使用的相对路径所以我们写一个名叫的程序放在当前目录下使用程序就能执行这个恶意程序编译这个程序将的运行根目录更改为我们当前的目录再运行一次命令发现已经成功运行了我们的恶意程序因为是直接运行目录下的所以我们将复制到当前目录下并且命名为则运行后就可以编写文件编译文件将环境变量的值改为当前目录下编译好的文件编译文件运行文件程序运行了我们在当前目录的文件因为被链接到了当前目录下的函数程序正常睡眠之后退出因为切换为另一个用户之后动态链接器会忽略环境变量切换为权限添加环境变量运行程序发现运行了我们写的程序因为调用和执行的两个用户是同一个所以可以使用环境变量将文件所有者更改为运行程序也是正常的运行了函数真实用户与拥有者用户一致子进程会继承用户下的环境变量并加入共享库执行设置的函数真实用户与拥有者用户不一致子进程不会继承用户下的环境变量执行原有的函数真实用户与拥有者用户一致子进程会继承用户下的环境变量并加入共享库执行设置的函数还是因为运行的环境和拥有者不一致导致环境变量被忽略转为一个程序使用用户创建一个文件并且使用用户不能删除这个文件可以正常运行程序我们执行命令发现成功删除更改程序编译之后赋予权限继续尝试中的方法发现并不能删除是因为会创建一个子进程然后子进程会调用一个新的程序而且因为是一个根程序所以在执行时会以权限执行删除文件的命令可以成功删除使用不可以成功删除不可写文件因为会执行一个新程序而不会调用新的程序所以将我们输入的参数仅仅当成一个字符串不会执行命令所以不能删除不可写文件给程序赋予权限使用权限创建文件运行代码写入该程序是有效用户并是程序有权利打开文件在执行了撤销权限后由于文件并没有关闭出现了权限泄露的问题该文件仍然具有权限因此能够继续执行写入内容',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2023-10-23 00:00:00',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://npm.elemecdn.com/anzhiyu-blog-static@1.0.4/img/avatar.jpg"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/" accesskey="h"><div class="title">Johnny</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> 最新评论</span></div><div class="aside-list"><span>正在加载中...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/C/" style="font-size: 1.05rem;">C<sup>1</sup></a><a href="/tags/Golang/" style="font-size: 1.05rem;">Golang<sup>1</sup></a><a href="/tags/Java/" style="font-size: 1.05rem;">Java<sup>4</sup></a><a href="/tags/Nginx/" style="font-size: 1.05rem;">Nginx<sup>1</sup></a><a href="/tags/Spring-Cloud/" style="font-size: 1.05rem;">Spring Cloud<sup>3</sup></a><a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 1.05rem;">安全<sup>11</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/12/"><span class="card-archive-list-date">十二月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/01/"><span class="card-archive-list-date">一月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/12/"><span class="card-archive-list-date">十二月 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/11/"><span class="card-archive-list-date">十一月 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">5</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/10/"><span class="card-archive-list-date">十月 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/09/"><span class="card-archive-list-date">九月 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/08/"><span class="card-archive-list-date">八月 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/02/"><span class="card-archive-list-date">二月 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AE%89%E5%85%A8/" itemprop="url">安全</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/%E5%AE%89%E5%85%A8/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>安全</span></a></span></div></div><h1 class="post-title" itemprop="name headline">SEED Labs 2.0: Shellcode Development Lab</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2023-10-22T16:00:00.000Z" title="发表于 2023-10-23 00:00:00">2023-10-23</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2023-10-22T16:00:00.000Z" title="更新于 2023-10-23 00:00:00">2023-10-23</time></span></div><div class="meta-secondline"><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为成都"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>成都</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20240112232340.png"></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="https://jieyugit.github.io/2023/10/23/20231023-SEED-Labs-2.0-Shellcode-Development-Lab/"><header><a class="post-meta-categories" href="/categories/%E5%AE%89%E5%85%A8/" itemprop="url">安全</a><a href="/tags/%E5%AE%89%E5%85%A8/" tabindex="-1" itemprop="url">安全</a><h1 id="CrawlerTitle" itemprop="name headline">SEED Labs 2.0: Shellcode Development Lab</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">Johnny</span><time itemprop="dateCreated datePublished" datetime="2023-10-22T16:00:00.000Z" title="发表于 2023-10-23 00:00:00">2023-10-23</time><time itemprop="dateCreated datePublished" datetime="2023-10-22T16:00:00.000Z" title="更新于 2023-10-23 00:00:00">2023-10-23</time></header><h1 id="Shellcode-Development-Lab"><a href="#Shellcode-Development-Lab" class="headerlink" title="Shellcode Development Lab"></a>Shellcode Development Lab</h1><h2 id="Task-1-a-The-Entire-Process"><a href="#Task-1-a-The-Entire-Process" class="headerlink" title="Task 1.a: The Entire Process"></a>Task 1.a: The Entire Process</h2><h3 id="Compiling-to-object-code"><a href="#Compiling-to-object-code" class="headerlink" title="Compiling to object code."></a>Compiling to object code.</h3><p>将汇编语言编译成为机器码：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023160052204.png" alt="image-20231023160052204"></p>
+<h3 id="Linking-to-generate-final-binary"><a href="#Linking-to-generate-final-binary" class="headerlink" title="Linking to generate final binary."></a>Linking to generate final binary.</h3><p>将编译后的文件进行链接，就生成了可执行文件</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023160232950.png" alt="image-20231023160232950"></p>
+<p>运行之后可以看到是子进程运行的shell命令</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023160355881.png" alt="image-20231023160355881"></p>
+<h3 id="Getting-the-machine-code"><a href="#Getting-the-machine-code" class="headerlink" title="Getting the machine code"></a>Getting the machine code</h3><p>可以通过<code>objdump -Mintel --disassemble mysh.o</code>查看编译之后机器码</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023160537136.png" alt="image-20231023160537136"></p>
+<p>也可以通过<code> xxd -p -c 20 mysh.o</code>查看没有被高亮的机器码</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023160613800.png" alt="image-20231023160613800"></p>
+<h3 id="Using-the-shellcode-in-attacking-code"><a href="#Using-the-shellcode-in-attacking-code" class="headerlink" title="Using the shellcode in attacking code."></a>Using the shellcode in attacking code.</h3><p>可以使用<code>convert.py</code>将机器码转换一个格式</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023160924699.png" alt="image-20231023160924699"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023160938185.png" alt="image-20231023160938185"></p>
+<h2 id="Task-1-b-Eliminating-Zeros-from-the-Code"><a href="#Task-1-b-Eliminating-Zeros-from-the-Code" class="headerlink" title="Task 1.b. Eliminating Zeros from the Code"></a>Task 1.b. Eliminating Zeros from the Code</h2><p>先看看<code>/</code>的指令是:<code>2f</code>，然后68当作结尾符</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231016163304175.png" alt="image-20231016163304175"></p>
+<p>由于不能使用<code>\</code>，就使用<code>***</code>将h填满到4个字节，因为是小端存储所以需要先左移，再右移的方式将<code>***</code>消除掉。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231016165603858.png" alt="image-20231016165603858"></p>
+<p>查看反汇编指令：并没有00</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231016165728013.png" alt="image-20231016165728013"></p>
+<p>成功运行</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231016165749981.png" alt="image-20231016165749981"></p>
+<h2 id="Task-1-c-Providing-Arguments-for-System-Calls"><a href="#Task-1-c-Providing-Arguments-for-System-Calls" class="headerlink" title="Task 1.c. Providing Arguments for System Calls"></a>Task 1.c. Providing Arguments for System Calls</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">section .text</span><br><span class="line">  global _start</span><br><span class="line">    _start:</span><br><span class="line">      ; Store the argument string on stack</span><br><span class="line">      xor eax,eax</span><br><span class="line">      push eax          ; Use 0 to terminate the string</span><br><span class="line">      </span><br><span class="line">      push &quot;//sh&quot;</span><br><span class="line">      push &quot;/bin&quot;</span><br><span class="line">      mov  ebx, esp     ; Get the string address</span><br><span class="line">      ; Construct the argument array argv[]</span><br><span class="line">      push eax</span><br><span class="line">      mov eax, &quot;##-c&quot;</span><br><span class="line">      shr eax,16</span><br><span class="line">      push eax</span><br><span class="line">      xor eax, eax</span><br><span class="line">      mov ecx, esp</span><br><span class="line"></span><br><span class="line">      mov eax,&quot;##la&quot;</span><br><span class="line">      shr eax,16</span><br><span class="line">      push eax</span><br><span class="line">      xor eax,eax</span><br><span class="line">      push &quot;ls -&quot;</span><br><span class="line">      mov edx, esp</span><br><span class="line">      </span><br><span class="line">      xor eax,eax</span><br><span class="line"></span><br><span class="line">      push eax          ; argv[1] = 0</span><br><span class="line">      push edx          ; argv[0] points &quot;/bin//sh&quot;</span><br><span class="line">      push ecx</span><br><span class="line">      push ebx</span><br><span class="line"></span><br><span class="line">      mov  ecx, esp     ; Get the address of argv[]</span><br><span class="line">   </span><br><span class="line">      ; For environment variable </span><br><span class="line">      xor  edx, edx     ; No env variables </span><br><span class="line"></span><br><span class="line">      ; Invoke execve()</span><br><span class="line">      xor  eax, eax     ; eax = 0x00000000</span><br><span class="line">      mov   al, 0x0b    ; eax = 0x0000000b</span><br><span class="line">      int 0x80</span><br></pre></td></tr></table></figure>
+
+<p>我们一行一行进行解释:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xor eax,eax</span><br><span class="line">push eax</span><br></pre></td></tr></table></figure>
+
+<p>这一行先使用异或，将eax清零，然后将eax压入栈，用于字符串终止标志</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">push &quot;//sh&quot;</span><br><span class="line">push &quot;/bin&quot;</span><br><span class="line">mov  ebx, esp</span><br></pre></td></tr></table></figure>
+
+<p>将两个字符串压入栈中，因为寄存器是32位，所以都是正好可以压入的，不用另外处理，然后把这个字符串，即<code>/bin/sh</code>的地址赋值给<code>ebx</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">push eax</span><br><span class="line">mov eax, &quot;##-c&quot;</span><br><span class="line">shr eax,16</span><br><span class="line">push eax</span><br><span class="line">xor eax, eax</span><br><span class="line">mov ecx, esp</span><br></pre></td></tr></table></figure>
+
+<p>将空的eax压入栈中，也是当作字符串的结尾使用。</p>
+<p>接下来的两条指令都是为了将空格给创造出来</p>
+<p>然后将字符串压入栈中，同时清空eax供之后直接使用</p>
+<p>同时将字符串的地址赋值给esp</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mov eax,&quot;##la&quot;</span><br><span class="line">shr eax,16</span><br><span class="line">push eax</span><br><span class="line">xor eax,eax</span><br><span class="line">push &quot;ls -&quot;</span><br><span class="line">mov edx, esp</span><br></pre></td></tr></table></figure>
+
+<p>也是同样的将<code>  la</code>指令创造出来压入栈中，同时把<code>ls -</code>指令压入栈中，这样的字符串就是<code>ls -la</code>，然后将字符串地址赋值给edx</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">push eax          ; argv[1] = 0</span><br><span class="line">push edx          </span><br><span class="line">push ecx</span><br><span class="line">push ebx</span><br></pre></td></tr></table></figure>
+
+<p>这些寄存器都存储好了字符串的地址，之后将这些寄存器按照参数先后顺序压入栈中就完成了</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231017214828641.png" alt="image-20231017214828641"></p>
+<h2 id="Task-1-d-Providing-Environment-Variables-for-execve"><a href="#Task-1-d-Providing-Environment-Variables-for-execve" class="headerlink" title="Task 1.d. Providing Environment Variables for execve()"></a>Task 1.d. Providing Environment Variables for execve()</h2><p>对于每个字符串，都像前一个实验那样，将字符串压入栈中，并且存储对应字符串的值</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231017222332309.png" alt="image-20231017222332309"></p>
+<p>按照文档顺序都压入栈中，但是最后一个压入的一定是edx，如果选用其他的寄存器会导致段错误</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231017222508497.png" alt="image-20231017222508497"></p>
+<p>编译执行：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231017222635210.png" alt="image-20231017222635210"></p>
+<h2 id="Task-2-Using-Code-Segment"><a href="#Task-2-Using-Code-Segment" class="headerlink" title="Task 2: Using Code Segment"></a>Task 2: Using Code Segment</h2><h3 id="Task1"><a href="#Task1" class="headerlink" title="Task1"></a>Task1</h3><p><code>one:</code>: 定义一个标签 <code>one</code>。</p>
+<p><code>pop ebx</code>: 弹出堆栈顶部的值，将其存储到EBX寄存器中，这个值是标签 <code>two</code> 后面的字符串的地址。</p>
+<p><code>xor eax, eax</code>: 将EAX寄存器的值清零，通常用于清零寄存器中的临时数据。</p>
+<p><code>mov [ebx+7], al</code>: 将EAX中的0写入到EBX加7的地址处，这是为了将字符串 “&#x2F;bin&#x2F;sh” 的结尾标志设置为null终止符。</p>
+<p><code>mov [ebx+8], ebx</code>: 将EBX的值写入到EBX加8的地址处，实际上是将 “&#x2F;bin&#x2F;sh” 的地址存储在这个位置。</p>
+<p><code>mov [ebx+12], eax</code>: 将0写入到EBX加12的地址处，用于argv[2]，表示命令参数列表的结束。</p>
+<p><code>lea ecx, [ebx+8]</code>: 计算 <code>[ebx+8]</code> 的地址，将结果存储在ECX中，这将成为<code>execve</code>系统调用的第二个参数，即参数数组 <code>argv</code> 的地址。</p>
+<p><code>xor edx, edx</code>: 将EDX寄存器的值清零，通常用于清零寄存器中的临时数据。</p>
+<p><code>mov al, 0x0b</code>: 将AL寄存器设置为0x0b，这是<code>execve</code>系统调用的系统调用号。</p>
+<p><code>int 0x80</code>: 触发中断0x80，从而调用<code>execve</code>系统调用，以执行 <code>/bin/sh</code>。</p>
+<p><code>two:</code>: 定义标签 <code>two</code>。</p>
+<p><code>call one</code>: 调用标签 <code>one</code>，实际上执行了前面定义的 <code>one</code> 子例程。</p>
+<p><code>db &#39;/bin/sh*AAAABBBB&#39;</code>: 定义一个字符串，其中包含要执行的命令 <code>/bin/sh</code>，以及一些填充字符。这个字符串是 <code>pop ebx</code> 命令后面的内容，它将被用来设置EBX寄存器，以便执行 <code>/bin/sh</code> 命令。</p>
+<p>通过修改内存中的字符串和寄存器来构造 <code>execve</code> 系统调用所需的参数，然后触发系统调用来执行指定的命令，从而成功执行 <code>/bin/sh</code> 程序。</p>
+<p>他是将定义好的字符串，即’&#x2F;bin&#x2F;sh*AAAABBBB’，在one中弹出并且存储到ebx中，同时将其之下的位置当作参数位置进行构造，然后记录其起始位置，通过中断并且调用execve函数进行&#x2F;bin&#x2F;sh的执行</p>
+<h3 id="Task2"><a href="#Task2" class="headerlink" title="Task2"></a>Task2</h3><ul>
+<li><p>‘&#x2F;usr&#x2F;bin&#x2F;env#-i#a&#x3D;11#b&#x3D;22#AAAABBBBCCCCDDDDEEEE’是我们构造的字符串，通过call + pop指令可以获取该地址</p>
+<ul>
+<li><code>#</code>是占位符。为了防止0导致strcpy无法复制字符串，这里使用#作为占位符，后面会用al进行替换</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/env -i a=11 b=22</span><br></pre></td></tr></table></figure>
+
+<p>是我们要执行的命令（一定要注意到字符串最后有个\0）</p>
+<ul>
+<li>ecx存储argv的地址，因此指向ebx+26</li>
+<li>ebx存储“&#x2F;usr&#x2F;bin&#x2F;env\0”的地址</li>
+</ul>
+</li>
+</ul>
+<p>运行结果为：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023165212011.png" alt="image-20231023165212011"></p>
+<h3 id="Task3"><a href="#Task3" class="headerlink" title="Task3"></a>Task3</h3><p>注意到64位和32位的不同：</p>
+<ul>
+<li>64位系统，调用系统调用是通过 syscall 指令完成的</li>
+<li>系统调用的前三个参数分别存储在 rdx、 rsi 和 rdi 寄存器中</li>
+</ul>
+<p>修改之后的文件为：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023165357052.png" alt="image-20231023165357052"></p>
+<p>成功执行</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023165500580.png" alt="image-20231023165500580"></p>
+<h1 id="Environment-Variable-and-Set-UID-Program-Lab"><a href="#Environment-Variable-and-Set-UID-Program-Lab" class="headerlink" title="Environment Variable and Set-UID Program Lab"></a>Environment Variable and Set-UID Program Lab</h1><h2 id="Task-1-Manipulating-Environment-Variables"><a href="#Task-1-Manipulating-Environment-Variables" class="headerlink" title="Task 1: Manipulating Environment Variables"></a>Task 1: Manipulating Environment Variables</h2><p>使用<code>printenv</code>或者<code>env</code>打印环境变量</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023173945650.png" alt="image-20231023173945650"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023173955477.png" alt="image-20231023173955477"></p>
+<p>使用<code>env | grep PWD</code>或者 printenv PWD 查看特定的环境变量</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023174106529.png" alt="image-20231023174106529"></p>
+<p>使用<code>export</code>命令添加环境变量，使用<code>unset</code>删除环境变量</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023174217076.png" alt="image-20231023174217076"></p>
+<h2 id="Task-2-Passing-Environment-Variables-from-Parent-Process-to-Child-Process"><a href="#Task-2-Passing-Environment-Variables-from-Parent-Process-to-Child-Process" class="headerlink" title="Task 2: Passing Environment Variables from Parent Process to Child Process"></a>Task 2: Passing Environment Variables from Parent Process to Child Process</h2><p><code>myprintenv.c</code>比较简单</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023174550859.png" alt="image-20231023174550859"></p>
+<h3 id="Step1"><a href="#Step1" class="headerlink" title="Step1"></a>Step1</h3><p>编译文件，并且将输出重定向到file文件中</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023174415051.png" alt="image-20231023174415051"></p>
+<h3 id="Step2"><a href="#Step2" class="headerlink" title="Step2"></a>Step2</h3><p>将父进程的环境变量打印，并输出到另一个文件<code>file2</code>中</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023174728509.png" alt="image-20231023174728509"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023174742360.png" alt="image-20231023174742360"></p>
+<h3 id="Step3"><a href="#Step3" class="headerlink" title="Step3"></a>Step3</h3><p>比较两个文件</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023174824472.png" alt="image-20231023174824472"></p>
+<p>并没有输出，说明两个文件没有差异，即子进程完全继承了父进程的环境变量</p>
+<h2 id="Task-3-Environment-Variables-and-execve"><a href="#Task-3-Environment-Variables-and-execve" class="headerlink" title="Task 3: Environment Variables and execve()"></a>Task 3: Environment Variables and execve()</h2><p>在文档的描述中说到，<code>execve()</code>并不会返回，其运行的进程直接使用调用<code>execve()</code>的进程的地址空间，而且是覆盖了原来进程的地址空间。</p>
+<p>提出一个问题新的进程是否自动继承了调用进程的环境变量?</p>
+<h3 id="Step1-1"><a href="#Step1-1" class="headerlink" title="Step1"></a>Step1</h3><p>编译<code>myenv.c</code>文件</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023175233449.png" alt="image-20231023175233449"></p>
+<p>运行它，发现并没有输出</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023175324768.png" alt="image-20231023175324768"></p>
+<h3 id="Step2-1"><a href="#Step2-1" class="headerlink" title="Step2"></a>Step2</h3><p>更改第十二行代码，编译运行</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023175410360.png" alt="image-20231023175410360"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023175432534.png" alt="image-20231023175432534"></p>
+<p>发现打印出了环境变量</p>
+<h3 id="Step3-1"><a href="#Step3-1" class="headerlink" title="Step3"></a>Step3</h3><p>发现在原来的程序中定义了一个外部变量<code>environ</code>，并且在调用exevce时，传入了这个值，他就是父进程中的环境变量</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023175754689.png" alt="image-20231023175754689"></p>
+<p>在man中也有说明</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023175941334.png" alt="image-20231023175941334"></p>
+<h2 id="Task-4-Environment-Variables-and-system"><a href="#Task-4-Environment-Variables-and-system" class="headerlink" title="Task 4: Environment Variables and system()"></a>Task 4: Environment Variables and system()</h2><p>不同于<code>execve()</code>, <code>system()</code>系统调用使用的其实是<code>/bin/bash</code>运行指定的命令</p>
+<p>编写代码，并且运行，发现它打印出了环境变量</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023180437677.png" alt="image-20231023180437677"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023180423426.png" alt="image-20231023180423426"></p>
+<h2 id="Task-5-Environment-Variable-and-Set-UID-Programs"><a href="#Task-5-Environment-Variable-and-Set-UID-Programs" class="headerlink" title="Task 5: Environment Variable and Set-UID Programs"></a>Task 5: Environment Variable and Set-UID Programs</h2><h3 id="Step1-编写程序"><a href="#Step1-编写程序" class="headerlink" title="Step1 编写程序"></a>Step1 编写程序</h3><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023181051422.png" alt="image-20231023181051422"></p>
+<h2 id="Step2-2"><a href="#Step2-2" class="headerlink" title="Step2"></a>Step2</h2><p>编译程序，并且更改程序执行权限</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023181142941.png" alt="image-20231023181142941"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023181151872.png" alt="image-20231023181151872"></p>
+<h3 id="Step3-2"><a href="#Step3-2" class="headerlink" title="Step3"></a>Step3</h3><p>设置三个环境变量</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023181410423.png" alt="image-20231023181410423"></p>
+<p>这些环境变量是设置在用户空间的，从<code>$</code>就可看出来</p>
+<p>之后运行上面写好的程序</p>
+<p>我们发现在父进程中设置的<strong>PATH、name环境变量都已经进入了子进程的环境变量</strong>，但是我们发现在子进程的环境变量中<strong>找不到LD_LIBRARY_PATH环境变量</strong>。</p>
+<p>LD_LIBRARY_PATH用于指定查找共享库（动态链接库）时除了默认路径以外的其他路径；LD_LIBRARY_PATH可以被修改，从而加载攻击者的恶意库；为了使Set-UID程序更加安全，不受LD_LIBRARY_PATH环境变量的影响，运行时的链接器或加载器（ld.so）会忽略LD*环境变量；或许可以理解为链接器所拥有的一个保护机制：当执行程序的进程ID与拥有者的进程ID不一致时，链接器就会忽略掉LD_LIBRARY_PATH环境变量，所以在子进程的环境变量中找不到此环境变量。</p>
+<h2 id="Task-6-The-PATH-Environment-Variable-and-Set-UID-Programs"><a href="#Task-6-The-PATH-Environment-Variable-and-Set-UID-Programs" class="headerlink" title="Task 6: The PATH Environment Variable and Set-UID Programs"></a>Task 6: The PATH Environment Variable and Set-UID Programs</h2><p>先编写一个程序</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023182511812.png" alt="image-20231023182511812"></p>
+<p>这个程序运行了ls指令，并且使用的是相对路径，我们编译运行,结果如下</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023182555684.png" alt="image-20231023182555684"></p>
+<p>发现他确实运行了<code>ls</code>指令</p>
+<p>更改为Set-UID程序</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023182715697.png" alt="image-20231023182715697"></p>
+<p>为了关闭保护程序，我们将<code>/bin/sh</code>重链接到另外一个程序上：</p>
+<p><code>sudo ln -sf /bin/zsh /bin/sh</code></p>
+<h3 id="运行任意编写的代码"><a href="#运行任意编写的代码" class="headerlink" title="运行任意编写的代码"></a>运行任意编写的代码</h3><p>由于是使用的相对路径，所以我们写一个名叫ls的程序放在当前目录下，使用Set-UID程序就能执行这个恶意程序</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023183017767.png" alt="image-20231023183017767"></p>
+<p>编译这个程序</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023183036390.png" alt="image-20231023183036390"></p>
+<p>将<code>/bin/bash</code>的运行根目录更改为我们当前的目录</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023183226743.png" alt="image-20231023183226743"></p>
+<p>再运行一次<code>task6</code>命令，发现已经成功运行了我们的恶意程序</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023183256825.png" alt="image-20231023183256825"></p>
+<h3 id="getshell"><a href="#getshell" class="headerlink" title="getshell"></a>getshell</h3><p>因为是直接运行目录下的<code>ls</code>，所以我们将<code>/bin/bash</code>复制到当前目录下，并且命名为<code>ls</code>,则运行<code>task6</code>后就可以getshell</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023183735615.png" alt="image-20231023183735615"></p>
+<h2 id="Task-7-The-LD-PRELOAD-Environment-Variable-and-Set-UID-Programs"><a href="#Task-7-The-LD-PRELOAD-Environment-Variable-and-Set-UID-Programs" class="headerlink" title="Task 7: The LD PRELOAD Environment Variable and Set-UID Programs"></a>Task 7: The LD PRELOAD Environment Variable and Set-UID Programs</h2><h3 id="Step1-2"><a href="#Step1-2" class="headerlink" title="Step1"></a>Step1</h3><ul>
+<li>编写<code>mylib.c</code>文件</li>
+<li>编译<code>mylib.c</code>文件</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023185206029.png" alt="image-20231023185206029"></p>
+<ul>
+<li>将<code>LD_PRELOAD</code>环境变量的值改为当前目录下编译好的<code>libmylib.so.1.0.1</code>文件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> LD_PRELOAD=./libmylib.so.1.0.1</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023185335837.png" alt="image-20231023185335837"></p>
+<ul>
+<li>编译<code>myprog.c</code>文件</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023185519083.png" alt="image-20231023185519083"></p>
+<h3 id="Step2-3"><a href="#Step2-3" class="headerlink" title="Step2"></a>Step2</h3><p>运行<code>myprog</code>文件</p>
+<ul>
+<li>Make myprog a regular program, and run it as a normal user.</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023185659861.png" alt="image-20231023185659861"></p>
+<p>程序运行了我们在当前目录的<code>sleep</code>文件，因为<code>sleep</code>被链接到了当前目录下的<code>sleep</code>函数</p>
+<ul>
+<li>Make myprog a Set-UID root program, and run it as a normal user.</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023190008227.png" alt="image-20231023190008227"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023190028107.png" alt="image-20231023190028107"></p>
+<p>程序正常睡眠1s之后退出, 因为切换为另一个用户之后，动态链接器会忽略LD_PRELOAD环境变量</p>
+<ul>
+<li>Make myprog a Set-UID root program, export the LD PRELOAD environment variable again in the root account and run it.</li>
+</ul>
+<p>切换为root权限</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023190408036.png" alt="image-20231023190408036"></p>
+<p>添加环境变量</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023190505303.png" alt="image-20231023190505303"></p>
+<p>运行程序</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023190520507.png" alt="image-20231023190520507"></p>
+<p>发现运行了我们写的程序,因为调用和执行的两个用户是同一个所以可以使用LD_PRELOAD环境变量</p>
+<ul>
+<li>Make myprog a Set-UID user1 program (i.e., the owner is user1, which is another user account), export the LD PRELOAD environment variable again in a different user’s account (not-root user) and run it.</li>
+</ul>
+<p>将文件所有者更改为user1</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023191020282.png" alt="image-20231023191020282"></p>
+<p>运行程序</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023191030371.png" alt="image-20231023191030371"></p>
+<p>也是正常的运行了<code>sleep</code>函数，</p>
+<h3 id="Step3-3"><a href="#Step3-3" class="headerlink" title="Step3"></a>Step3</h3><ul>
+<li>真实用户ID与拥有者用户ID一致，子进程会继承seed用户下的LD*环境变量，并加入共享库，执行设置的sleep函数</li>
+<li>真实用户ID与拥有者用户ID不一致，子进程不会继承seed用户下的LD*环境变量，执行原有的sleep函数</li>
+<li>真实用户ID与拥有者用户ID一致，子进程会继承seed用户下的LD*环境变量，并加入共享库，执行设置的sleep函数</li>
+<li>还是因为运行的环境id和拥有者id不一致，导致LD_PRELOAD环境变量被忽略</li>
+</ul>
+<h2 id="Task-8-Invoking-External-Programs-Using-system-versus-execve"><a href="#Task-8-Invoking-External-Programs-Using-system-versus-execve" class="headerlink" title="Task 8: Invoking External Programs Using system() versus execve()"></a>Task 8: Invoking External Programs Using system() versus execve()</h2><h3 id="Step-1"><a href="#Step-1" class="headerlink" title="Step 1:"></a>Step 1:</h3><p>转为一个Set-UID程序</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023193749483.png" alt="image-20231023193749483"></p>
+<p>使用root用户创建一个文件, 并且使用seed用户不能删除这个文件</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023194246085.png" alt="image-20231023194246085"></p>
+<p>可以正常运行<code>catall</code>程序</p>
+<p>我们执行命令<code>/home/super.c;rm /home/super.c </code> 发现成功删除</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023194855537.png" alt="image-20231023194855537"></p>
+<h3 id="Step2-4"><a href="#Step2-4" class="headerlink" title="Step2"></a>Step2</h3><p>更改程序</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023195025466.png" alt="image-20231023195025466"></p>
+<p>编译之后赋予Set-UID权限</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023195228388.png" alt="image-20231023195228388"></p>
+<p>继续尝试Step1中的方法，发现并不能删除</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023195412743.png" alt="image-20231023195412743"></p>
+<p>是因为system会创建一个子进程，然后子进程会调用一个新的shell程序，而且因为<code>catall</code>是一个Set-UID根程序，所以在执行时会以root权限执行删除文件的命令，可以成功删除。</p>
+<p>使用execve()不可以成功删除不可写文件，因为execve会执行一个新程序，而不会调用新的shell程序，所以将我们输入的参数仅仅当成一个字符串，不会执行命令，所以不能删除不可写文件。</p>
+<h2 id="Task-9-Capability-Leaking"><a href="#Task-9-Capability-Leaking" class="headerlink" title="Task 9: Capability Leaking"></a>Task 9: Capability Leaking</h2><p>给程序赋予权限</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023200029316.png" alt="image-20231023200029316"></p>
+<p>使用root权限创建<code>zzz</code>文件</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023200334758.png" alt="image-20231023200334758"></p>
+<p>运行代码，写入zzz</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023200526927.png" alt="image-20231023200526927"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogimage-20231023201008669.png" alt="image-20231023201008669"></p>
+<p>该程序是root有效用户，并是Set_UID程序，有权利打开&#x2F;etc&#x2F;zzz文件，在执行了setuid()撤销权限后，由于文件并没有关闭，出现了权限泄露的问题，该文件仍然具有root权限。因此能够继续执行写入hello内容</p>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20240112195732.png" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20240112195732.png" title="头像" alt="头像"></a><div class="post-copyright__author_name">Johnny</div><div class="post-copyright__author_desc"></div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="https://jieyugit.github.io/2023/10/23/20231023-SEED-Labs-2.0-Shellcode-Development-Lab/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('https://jieyugit.github.io/2023/10/23/20231023-SEED-Labs-2.0-Shellcode-Development-Lab/')">SEED Labs 2.0: Shellcode Development Lab</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="https://jieyugit.github.io/2023/10/23/20231023-SEED-Labs-2.0-Shellcode-Development-Lab/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=SEED Labs 2.0: Shellcode Development Lab&amp;url=https://jieyugit.github.io/2023/10/23/20231023-SEED-Labs-2.0-Shellcode-Development-Lab/&amp;pic=https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20240112232340.png" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://jieyugit.github.io" target="_blank">Johnny</a>！</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/%E5%AE%89%E5%85%A8/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>安全<span class="tagsPageCount">11</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="https://i.ytimg.com/vi/8ev9ZX9J45A/maxresdefault.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/09/26/20230926-SEED-Labs-2.0-MD5-Hash-Collision/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogblog20240112231721.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">SEED Labs 2.0: MD5 Hash Collision</div></div></a></div><div class="next-post pull-right"><a href="/2023/10/30/20231030-SEED-Labs-2.0-Cross-Site-Scripting-(XSS)-Attack-Lab/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20240112233445.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">SEED Labs 2.0: Cross-Site Scripting (XSS) Attack Lab</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>喜欢这篇文章的人也看了</span></div><div class="relatedPosts-list"><div><a href="/2023/09/20/20230920-%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F%E5%B7%A5%E5%85%B7/" title="端口扫描工具"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20240112231526.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-09-20</div><div class="title">端口扫描工具</div></div></a></div><div><a href="/2023/09/26/20230926-SEED-Labs-2.0-MD5-Hash-Collision/" title="SEED Labs 2.0: MD5 Hash Collision"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blogblog20240112231721.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-09-26</div><div class="title">SEED Labs 2.0: MD5 Hash Collision</div></div></a></div><div><a href="/2023/10/30/20231030-SEED-Labs-2.0-Cross-Site-Scripting-(XSS)-Attack-Lab/" title="SEED Labs 2.0: Cross-Site Scripting (XSS) Attack Lab"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20240112233445.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-10-30</div><div class="title">SEED Labs 2.0: Cross-Site Scripting (XSS) Attack Lab</div></div></a></div><div><a href="/2023/11/06/20231106-SEED-Labs-2.0-SQL-Injection-Attack-Lab/" title="SEED Labs 2.0: SQL Injection Attack Lab"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20240112233554.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-11-06</div><div class="title">SEED Labs 2.0: SQL Injection Attack Lab</div></div></a></div><div><a href="/2023/11/28/20231128-SEED-Labs-2.0-TCPIP-Attack-Lab/" title="SEED Labs 2.0: TCP&#x2F;IP Attack Lab"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20240112233701.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-11-28</div><div class="title">SEED Labs 2.0: TCP&#x2F;IP Attack Lab</div></div></a></div><div><a href="/2023/11/27/20231127-vulhub-DC/" title="vulhub DC"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20231129133005.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-11-27</div><div class="title">vulhub DC</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info__sayhi" id="author-info__sayhi" onclick="anzhiyu.changeSayHelloText()"></div><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20240112195732.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-status"><img class="g-status" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2021/01/15/b34c4b29baf17.png" alt="status"/></div></div><div class="author-info__description"><div style="line-height:1.38;margin:0.6rem 0;text-align:justify;color:rgba(255, 255, 255, 0.8);">虚心向各位学习<b style="color:#fff">开发、安全</b>相关的问题和看法。</div><div style="line-height:1.38;margin:0.6rem 0;text-align:justify;color:rgba(255, 255, 255, 0.8);">这里都是鄙人的一些拙见<b style="color:#fff">请诸位指教</b>。<b style="color:#fff"></div> <div style="line-height:1.38;margin:0.6rem 0;text-align:justify;color:rgba(255, 255, 255, 0.8);">Feel free to contact me</b>.</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/"><h1 class="author-info__name">Johnny</h1><div class="author-info__desc"></div></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/jieyugit" target="_blank" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a><a class="social-icon faa-parent animated-hover" href="mailto:uiejohnny@gmail.com" target="_blank" title="Email"><i class="anzhiyufont anzhiyu-icon-envelope"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>文章目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Shellcode-Development-Lab"><span class="toc-number">1.</span> <span class="toc-text">Shellcode Development Lab</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Task-1-a-The-Entire-Process"><span class="toc-number">1.1.</span> <span class="toc-text">Task 1.a: The Entire Process</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Compiling-to-object-code"><span class="toc-number">1.1.1.</span> <span class="toc-text">Compiling to object code.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linking-to-generate-final-binary"><span class="toc-number">1.1.2.</span> <span class="toc-text">Linking to generate final binary.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Getting-the-machine-code"><span class="toc-number">1.1.3.</span> <span class="toc-text">Getting the machine code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Using-the-shellcode-in-attacking-code"><span class="toc-number">1.1.4.</span> <span class="toc-text">Using the shellcode in attacking code.</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Task-1-b-Eliminating-Zeros-from-the-Code"><span class="toc-number">1.2.</span> <span class="toc-text">Task 1.b. Eliminating Zeros from the Code</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Task-1-c-Providing-Arguments-for-System-Calls"><span class="toc-number">1.3.</span> <span class="toc-text">Task 1.c. Providing Arguments for System Calls</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Task-1-d-Providing-Environment-Variables-for-execve"><span class="toc-number">1.4.</span> <span class="toc-text">Task 1.d. Providing Environment Variables for execve()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Task-2-Using-Code-Segment"><span class="toc-number">1.5.</span> <span class="toc-text">Task 2: Using Code Segment</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Task1"><span class="toc-number">1.5.1.</span> <span class="toc-text">Task1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Task2"><span class="toc-number">1.5.2.</span> <span class="toc-text">Task2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Task3"><span class="toc-number">1.5.3.</span> <span class="toc-text">Task3</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Environment-Variable-and-Set-UID-Program-Lab"><span class="toc-number">2.</span> <span class="toc-text">Environment Variable and Set-UID Program Lab</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Task-1-Manipulating-Environment-Variables"><span class="toc-number">2.1.</span> <span class="toc-text">Task 1: Manipulating Environment Variables</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Task-2-Passing-Environment-Variables-from-Parent-Process-to-Child-Process"><span class="toc-number">2.2.</span> <span class="toc-text">Task 2: Passing Environment Variables from Parent Process to Child Process</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Step1"><span class="toc-number">2.2.1.</span> <span class="toc-text">Step1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step2"><span class="toc-number">2.2.2.</span> <span class="toc-text">Step2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step3"><span class="toc-number">2.2.3.</span> <span class="toc-text">Step3</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Task-3-Environment-Variables-and-execve"><span class="toc-number">2.3.</span> <span class="toc-text">Task 3: Environment Variables and execve()</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Step1-1"><span class="toc-number">2.3.1.</span> <span class="toc-text">Step1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step2-1"><span class="toc-number">2.3.2.</span> <span class="toc-text">Step2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step3-1"><span class="toc-number">2.3.3.</span> <span class="toc-text">Step3</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Task-4-Environment-Variables-and-system"><span class="toc-number">2.4.</span> <span class="toc-text">Task 4: Environment Variables and system()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Task-5-Environment-Variable-and-Set-UID-Programs"><span class="toc-number">2.5.</span> <span class="toc-text">Task 5: Environment Variable and Set-UID Programs</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Step1-%E7%BC%96%E5%86%99%E7%A8%8B%E5%BA%8F"><span class="toc-number">2.5.1.</span> <span class="toc-text">Step1 编写程序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step2-2"><span class="toc-number">2.6.</span> <span class="toc-text">Step2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Step3-2"><span class="toc-number">2.6.1.</span> <span class="toc-text">Step3</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Task-6-The-PATH-Environment-Variable-and-Set-UID-Programs"><span class="toc-number">2.7.</span> <span class="toc-text">Task 6: The PATH Environment Variable and Set-UID Programs</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E4%BB%BB%E6%84%8F%E7%BC%96%E5%86%99%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="toc-number">2.7.1.</span> <span class="toc-text">运行任意编写的代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#getshell"><span class="toc-number">2.7.2.</span> <span class="toc-text">getshell</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Task-7-The-LD-PRELOAD-Environment-Variable-and-Set-UID-Programs"><span class="toc-number">2.8.</span> <span class="toc-text">Task 7: The LD PRELOAD Environment Variable and Set-UID Programs</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Step1-2"><span class="toc-number">2.8.1.</span> <span class="toc-text">Step1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step2-3"><span class="toc-number">2.8.2.</span> <span class="toc-text">Step2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step3-3"><span class="toc-number">2.8.3.</span> <span class="toc-text">Step3</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Task-8-Invoking-External-Programs-Using-system-versus-execve"><span class="toc-number">2.9.</span> <span class="toc-text">Task 8: Invoking External Programs Using system() versus execve()</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-1"><span class="toc-number">2.9.1.</span> <span class="toc-text">Step 1:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step2-4"><span class="toc-number">2.9.2.</span> <span class="toc-text">Step2</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Task-9-Capability-Leaking"><span class="toc-number">2.10.</span> <span class="toc-text">Task 9: Capability Leaking</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/12/02/SCUCTF2023/" title="SCUCTF2023"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://i.ytimg.com/vi/8ev9ZX9J45A/maxresdefault.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SCUCTF2023"/></a><div class="content"><a class="title" href="/2024/12/02/SCUCTF2023/" title="SCUCTF2023">SCUCTF2023</a><time datetime="2024-12-01T16:00:00.000Z" title="发表于 2024-12-02 00:00:00">2024-12-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/11/Nginx%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="Nginx 内存池"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://miro.medium.com/v2/resize:fit:1200/0*mjG1YdoT7xPcnznN.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Nginx 内存池"/></a><div class="content"><a class="title" href="/2024/01/11/Nginx%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="Nginx 内存池">Nginx 内存池</a><time datetime="2024-01-10T16:00:00.000Z" title="发表于 2024-01-11 00:00:00">2024-01-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/02/20240102-%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/" title="网络空间安全技术"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20240112234319.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="网络空间安全技术"/></a><div class="content"><a class="title" href="/2024/01/02/20240102-%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/" title="网络空间安全技术">网络空间安全技术</a><time datetime="2024-01-01T16:00:00.000Z" title="发表于 2024-01-02 00:00:00">2024-01-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/25/20231225-Golang-channel/" title="Golang: channel"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20231225030656.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Golang: channel"/></a><div class="content"><a class="title" href="/2023/12/25/20231225-Golang-channel/" title="Golang: channel">Golang: channel</a><time datetime="2023-12-24T16:00:00.000Z" title="发表于 2023-12-25 00:00:00">2023-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/29/20231129-OWASP-TOP10%E9%9D%B6%E5%9C%BA/" title="OWASP TOP10靶场"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://imagerepoyu.oss-cn-hangzhou.aliyuncs.com/blog20231129131453.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="OWASP TOP10靶场"/></a><div class="content"><a class="title" href="/2023/11/29/20231129-OWASP-TOP10%E9%9D%B6%E5%9C%BA/" title="OWASP TOP10靶场">OWASP TOP10靶场</a><time datetime="2023-11-29T15:42:40.000Z" title="发表于 2023-11-29 23:42:40">2023-11-29</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2020 - 2024 By <a class="footer-bar-link" href="/" title="Johnny" target="_blank">Johnny</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/anzhiyu-c/hexo-theme-anzhiyu" title="主题">主题</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/tags/" title="tag"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/" title="category"><div class="headline">分类</div><div class="length-num">3</div></a></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="显示模式"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://blog.anheyu.com/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://image.anheyu.com/" title="安知鱼图床"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="安知鱼图床"/><span class="back-menu-item-text">安知鱼图床</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/C/" style="font-size: 0.88rem;">C<sup>1</sup></a><a href="/tags/Golang/" style="font-size: 0.88rem;">Golang<sup>1</sup></a><a href="/tags/Java/" style="font-size: 0.88rem;">Java<sup>4</sup></a><a href="/tags/Nginx/" style="font-size: 0.88rem;">Nginx<sup>1</sup></a><a href="/tags/Spring-Cloud/" style="font-size: 0.88rem;">Spring Cloud<sup>3</sup></a><a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 0.88rem;">安全<sup>11</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("04/01/2022 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2020 By 安知鱼 V1.6.12",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 Johnny 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>
